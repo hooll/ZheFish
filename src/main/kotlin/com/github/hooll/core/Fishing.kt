@@ -37,7 +37,7 @@ object Fishing {
         val fishData = random.random()
 
         val fishName = ZheFishApi.getFish(fishData!!)
-        if (fishData.equals("Nothing") || fishName == null){
+        if (fishData == "Nothing" || fishName == null){
             player.info("Info-FishNothing")
             return
         }

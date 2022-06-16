@@ -24,7 +24,8 @@ object DataYml {
        //物品获取
         fishYml.getKeys(false).forEach {
             val price = fishYml.getDouble("$it.price")
-            val fishData = FishData(it, fishYml.getItemStack(it)!!, price)
+            val canSell = fishYml.getBoolean("$it.canSell")
+            val fishData = FishData(it, fishYml.getItemStack(it)!!, price,canSell)
             ZheFishApi.fishes.add(fishData)
         }
     }
@@ -44,6 +45,7 @@ object DataYml {
         ZheFishApi.fishes.forEach {
             fishYml.setItemStack(it.name, it.itemStack)
             fishYml["${it.name}.price"] = it.price
+            fishYml["${it.name}.canSell"] = it.canSell
         }
     }
 

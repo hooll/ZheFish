@@ -6,4 +6,5 @@ class FishData(
     val name: String,
     val itemStack: ItemStack,
     var price: Double = 0.0,
+    var canSell: Boolean = false
 )

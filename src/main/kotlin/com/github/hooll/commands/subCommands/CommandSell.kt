@@ -26,13 +26,15 @@ object CommandSell {
             var money = 0.0
             ZheFishApi.fishes.toList().forEach { data->
                 var num = 0
-                sender.inventory.contents.forEach {
-                    if (it!=null&& it.isE(data.itemStack)){
-                        num += it.amount
-                        it.amount = 0
+                if (data.canSell){
+                    sender.inventory.contents.forEach {
+                        if (it!=null&& it.isE(data.itemStack)){
+                            num += it.amount
+                            it.amount = 0
+                        }
                     }
+                    money += num * data.price
                 }
-                money += num * data.price
             }
             VaultService.economy?.depositPlayer(sender,money)
             sender.info("Info-SellSuccess",money)
