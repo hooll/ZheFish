@@ -1,11 +1,8 @@
 package com.github.hooll.commands.subCommands
 
-import com.github.hooll.ZheFish
 import com.github.hooll.api.ZheFishApi
 import com.github.hooll.data.DataYml
-import com.github.hooll.data.FishData
 import com.github.hooll.data.RodData
-import com.github.hooll.gui.FishGui
 import com.github.hooll.gui.RodGui
 import com.github.hooll.info
 import com.github.hooll.warn
@@ -13,11 +10,10 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
-import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.getProxyPlayer
+import taboolib.common5.Coerce
 import taboolib.platform.util.giveItem
 import taboolib.platform.util.isAir
-import taboolib.platform.util.sendWarn
 
 object CommandRod {
     val command = subCommand {
@@ -49,7 +45,7 @@ object CommandRod {
         }
         //删除所有物品
         literal("removeAll",permission = "ZheFish.removeAll"){
-            execute<Player> { sender, _, argument ->
+            execute<Player> { sender, _, _ ->
                 ZheFishApi.rods.clear()
                 DataYml.save()
                 sender.info("Info-RemoveAllSuccess")
@@ -84,6 +80,24 @@ object CommandRod {
                             sender.info("Info-GiveSuccess",context.argument(-1),argument)
                         }else{
                             sender.info("Warn-PlayerNotOnline",context.argument(-1))
+                        }
+                    }
+                }
+            }
+        }
+        //添加对应奖励
+        literal("reward",permission = "ZheFish.reward") {
+            dynamic(commit = "鱼竿名称") {
+                suggestion<ProxyCommandSender>(uncheck = true) { _, _ -> ZheFishApi.rods.map { it.name } }
+                dynamic(commit = "奖励名称") {
+                    suggestion<ProxyCommandSender>(uncheck = true) { _, _ -> ZheFishApi.fishes.map { it.name } }
+                    dynamic(commit = "百分比概率") {
+                        suggestion<ProxyCommandSender>(uncheck = true) { _, _ -> listOf("百分比概率") }
+                        execute<ProxyCommandSender>{ sender, context, argument ->
+                            val rodData = ZheFishApi.getRod(context.argument(-2))
+                            rodData?.fishingData?.set(context.argument(-1), Coerce.toInteger(argument))
+                            DataYml.save()
+                            sender.info("Info-AddRewardSuccess",context.argument(-2))
                         }
                     }
                 }

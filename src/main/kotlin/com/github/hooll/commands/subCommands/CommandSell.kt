@@ -7,8 +7,6 @@ import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.subCommand
 import taboolib.platform.compat.VaultService
 import taboolib.platform.util.isAir
-import taboolib.platform.util.isNotAir
-import taboolib.platform.util.takeItem
 
 object CommandSell {
 
@@ -23,23 +21,17 @@ object CommandSell {
         return a == b
     }
 
-    private fun takeItem(player: Player,itemStack: ItemStack):Int{
-        var num = 0
-        player.inventory.contents.forEach {
-            if (it!=null&& it.isE(itemStack)){
-                num+=it.amount
-                it.amount = 0
-            }
-        }
-        return num
-    }
-
     val command = subCommand {
         execute<Player> { sender, _, _ ->
             var money = 0.0
             ZheFishApi.fishes.toList().forEach { data->
                 var num = 0
-                num += takeItem(sender,data.itemStack)
+                sender.inventory.contents.forEach {
+                    if (it!=null&& it.isE(data.itemStack)){
+                        num += it.amount
+                        it.amount = 0
+                    }
+                }
                 money += num * data.price
             }
             VaultService.economy?.depositPlayer(sender,money)

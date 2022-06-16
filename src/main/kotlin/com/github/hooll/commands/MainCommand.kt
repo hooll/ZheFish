@@ -1,15 +1,12 @@
 package com.github.hooll.commands
 
-import com.github.hooll.commands.subCommands.CommandFish
-import com.github.hooll.commands.subCommands.CommandReload
-import com.github.hooll.commands.subCommands.CommandRod
-import com.github.hooll.commands.subCommands.CommandSell
+import com.github.hooll.commands.subCommands.*
 import com.github.hooll.warn
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.PermissionDefault
 import taboolib.common.platform.command.mainCommand
-import taboolib.module.lang.sendWarnMessage
 
 @CommandHeader("ZheFish", aliases = ["zFish","zf"] , permissionDefault = PermissionDefault.TRUE)
 object MainCommand {
@@ -22,6 +19,9 @@ object MainCommand {
         incorrectSender { sender, _ ->
             sender.warn("Warn-CommandSenderError")
         }
+        execute<ProxyCommandSender> { sender, _, _ ->
+            CommandHelp.helpMessage(sender)
+        }
     }
 
     @CommandBody
@@ -30,10 +30,12 @@ object MainCommand {
     @CommandBody
     val rod = CommandRod.command
 
-    @CommandBody
+    @CommandBody(permission = "ZheFish.reload")
     val reload = CommandReload.command
 
-    @CommandBody
+    @CommandBody(permission = "ZheFish.sell")
     val sell = CommandSell.command
 
+    @CommandBody
+    val help = CommandHelp.command
 }
