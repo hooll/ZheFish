@@ -44,7 +44,6 @@ object CommandSell {
             }
             VaultService.economy?.depositPlayer(sender,money)
             sender.info("Info-SellSuccess",money)
-            println("test")
         }
     }
 }
