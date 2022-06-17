@@ -1,5 +1,5 @@
-prefix-info: "&7[&a系统&7]"
-prefix-warn: "&7[&c系统&7]"
+Info-Prefix: "&7[&a系统&7]"
+Warn-Prefix: "&7[&c系统&7]"
 #问题提示
 Warn-CommandSenderError: "该指令无法在此执行"
 Warn-CommandError: "该指令无效"
