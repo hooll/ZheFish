@@ -1,3 +1,8 @@
 Gui:
   FishGuiTitle: "&a物品列表"
   RodGuiTitle: "&a鱼竿列表"
+#没有使用特定鱼竿钓的鱼
+#格式： 鱼的物品ID 和 百分比概率
+NotUseTheRod:
+  #"鱼名字1": 10
+  #"鱼名字2": 20

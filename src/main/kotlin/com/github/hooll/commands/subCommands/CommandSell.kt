@@ -17,6 +17,7 @@ object CommandSell {
         val a = this.clone()
         a.amount = 1
         val b = itemStack.clone()
+
         b.amount = 1
         return a == b
     }
