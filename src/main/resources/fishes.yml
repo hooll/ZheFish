@@ -1,0 +1,8 @@
+example_item:
+  item:
+    name: "&aexample_item"
+    lore:
+      - "&bexample_item_lore"
+    material: EMERALD
+  price: 0.0
+  canSell: false

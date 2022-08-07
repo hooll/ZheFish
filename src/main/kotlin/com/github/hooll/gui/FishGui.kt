@@ -1,11 +1,12 @@
 package com.github.hooll.gui
 
 import com.github.hooll.api.ZheFishApi
-import com.github.hooll.data.DataYml
-import com.github.hooll.data.FishData
-import com.github.hooll.util.Config
+import com.github.hooll.api.data.FishData
+import com.github.hooll.config.Config
+import com.github.hooll.config.DataYML
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.chat.colored
@@ -21,42 +22,53 @@ class FishGui(
         openFishUi()
     }
     private fun getFishItemStack(name: String): ItemStack?{
-        return ZheFishApi.getFish(name)?.itemStack?.clone()
+        val fishData = ZheFishApi.getFish(name)
+        val item = fishData?.itemStack?.clone()?.modifyMeta<ItemMeta> {
+            this.setDisplayName(fishData.itemStack.itemMeta?.displayName?.colored())
+            lore = fishData.itemStack.itemMeta?.lore?.colored()
+        }
+        return item
     }
 
     private fun openFishUi() {
         player.openMenu<Linked<FishData>>(title = Config.fishGuiTitle.colored()) {
             rows(6)
-            slots(inventoryCenterSlots)
+            slots(Slots.CENTER)
             elements { ZheFishApi.fishes }
             onGenerate { player, element, _, _ ->
                 var lore = ""
-                val itemStacks = getFishItemStack(element.name)
+                val itemStacks = element.getItem()
                 if (player.hasPermission("ZheFish.give")) {
                     lore += "${player.asLangText("Info-GuiItemGetLore")} "
                 }
                 if (player.hasPermission("ZheFish.remove")) {
                     lore += "${player.asLangText("Info-GuiItemRemoveLore")} "
                 }
-                return@onGenerate itemStacks?.modifyLore {
+                return@onGenerate itemStacks.modifyLore {
                     add(" ")
-                    add(lore)
-                    add(player.asLangText("Info-ItemNameLore",element.name))
-                    add(player.asLangText("Info-ItemPriceLore",element.price))
-                }!!
+                    add(lore.colored())
+                    add(player.asLangText("Info-ItemNameLore", element.name))
+                    add(player.asLangText("Info-ItemPriceLore", element.price))
+                }
             }
             onClick { event, element ->
-                if (event.clickEvent().isLeftClick) {
-                    if (player.hasPermission("ZheFish.give")) {
-                        player.giveItem(element.itemStack)
-                    }
-                } else if (event.clickEvent().isRightClick) {
-                    if (player.hasPermission("ZheFish.remove")) {
-                        ZheFishApi.fishes.remove(element)
-                        DataYml.save()
-                        submit(delay = 1) {
-                            openFishUi()
+                if (!event.clickEvent().isShiftClick) {
+                    if (event.clickEvent().isLeftClick) {
+                        if (player.hasPermission("ZheFish.give")) {
+                            player.giveItem(element.getItem())
                         }
+                    } else if (event.clickEvent().isRightClick) {
+                        if (player.hasPermission("ZheFish.remove")) {
+                            ZheFishApi.fishes.remove(element)
+                            DataYML.save()
+                            submit(delay = 1) {
+                                openFishUi()
+                            }
+                        }
+                    }
+                }else if (event.clickEvent().isShiftClick && event.clickEvent().isLeftClick){
+                    if (player.hasPermission("ZheFish.editor")) {
+                        element.openMenu(player)
                     }
                 }
             }

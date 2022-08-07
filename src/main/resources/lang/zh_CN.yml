@@ -1,5 +1,21 @@
 Info-Prefix: "&7[&a系统&7]"
 Warn-Prefix: "&7[&c系统&7]"
+
+Plugin-Database-Enabled: "&7[&aZheFish&7] &f数据库已成功加载。 当前数据库为 &e{0}."
+
+Info-Level-Up: "&f恭喜你升级到 &e{0}&f 级！"
+Info-Level-Change: "&f你的等级已{0} &e{1} &f级 &7({2})"
+Info-Exp-Change: "&f你的经验值已{0} &e{1} &f点 &7({2}/{3})&f"
+
+
+
+
+
+
+
+
+
+
 #问题提示
 Warn-CommandSenderError: "该指令无法在此执行"
 Warn-CommandError: "该指令无效"

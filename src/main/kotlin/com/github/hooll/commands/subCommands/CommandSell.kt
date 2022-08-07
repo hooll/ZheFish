@@ -1,7 +1,7 @@
 package com.github.hooll.commands.subCommands
 
 import com.github.hooll.api.ZheFishApi
-import com.github.hooll.info
+import com.github.hooll.util.info
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.subCommand

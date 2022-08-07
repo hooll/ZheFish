@@ -1,8 +1,25 @@
-Gui:
+DataBase:
+  #MySQL,SQLite
+  Type: SQLite
+  #若为SQLite不用配置下列项目
+  Host: localhost
+  Port: 3306
+  User: root
+  Password: root
+  Database: minecraft
+
+Options:
   FishGuiTitle: "&a物品列表"
-  RodGuiTitle: "&a鱼竿列表"
-#没有使用特定鱼竿钓的鱼
-#格式： 鱼的物品ID 和 百分比概率
-NotUseTheRod:
-  #"鱼名字1": 10
-  #"鱼名字2": 20
+  Default-NextLevelExp: 50
+  Default-FishExp: 2.0
+
+Custom:
+  ExpToNextLevel:
+    1-5: 100
+  LevelReward:
+    5:
+      - "[command]say test"
+  LevelFishItems:
+    1-10:
+      - "[MythicMob]test物品::10:5"
+      - "[ZheFish]"

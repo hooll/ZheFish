@@ -12,15 +12,21 @@ taboolib {
     install("module-configuration")
     install("module-lang")
     install("module-ui")
+    install("module-kether")
+    install("module-database")
+    install("module-nms")
+    install("module-nms-util")
     install("platform-bukkit")
+    install("expansion-player-database")
+    install("expansion-command-helper")
     classifier = null
-    version = "6.0.9-4"
+    version = "6.0.9-55"
     description {
         contributors {
-            name("jizhe")
+            name("Sting")
         }
         dependencies{
-            name("Vault")
+            name("Vault").optional(true)
         }
     }
 }
@@ -31,8 +37,9 @@ repositories {
 
 dependencies {
     compileOnly("ink.ptms:nms-all:1.0.0")
-    compileOnly("ink.ptms.core:v11800:11800-minimize:api")
-    compileOnly("ink.ptms.core:v11800:11800-minimize:mapped")
+    compileOnly("ink.ptms.core:v11901:11901:mapped")
+    compileOnly("ink.ptms.core:v11901:11901:universal")
+    taboo("ink.ptms:um:1.0.0-beta-15")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
 }
@@ -59,6 +66,13 @@ task("copy") {
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-Xjvm-default=all")
+    }
 }
 
 publishing {

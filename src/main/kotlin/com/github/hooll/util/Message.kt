@@ -1,4 +1,4 @@
-package com.github.hooll
+package com.github.hooll.util
 
 import org.bukkit.command.CommandSender
 import taboolib.common.Isolated
