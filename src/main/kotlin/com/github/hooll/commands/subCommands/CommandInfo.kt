@@ -17,7 +17,7 @@ object CommandInfo {
 
         }
         //玩家
-        dynamic("player") {
+        dynamic("player",permission = "ZheFish.info.other") {
             suggestion<ProxyCommandSender> { _, _ -> onlinePlayers.map { it.displayName } }
             //查看特定玩家的等级
             execute<ProxyCommandSender> { sender, _, argument ->

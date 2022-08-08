@@ -20,7 +20,7 @@ Info-RemoveAllSuccess: "&f已经删除全部物品!"
 Info-ListInfo: "&f物品列表: &e{0}"
 Info-GiveSuccess: "&f已成功给予玩家 &a{0} &&f物品 &e{1}"
 Info-ChangePriceSuccess: "&f已成功将售价修改为 &e{0}"
-Info-SellSuccess: "&f全部出售成功! 获得 &e{0} &&f金币"
+Info-SellSuccess: "&f全部出售成功! 获得 &e{0} &f金币"
 #Gui信息
 Info-GuiItemGetLore: "&f左键获取"
 Info-GuiItemRemoveLore: "&f右键删除"

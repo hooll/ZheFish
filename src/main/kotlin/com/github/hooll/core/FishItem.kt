@@ -43,8 +43,8 @@ object FishItem {
             random.add(it,Coerce.toInteger(it.split("::")[1]))
         }
         val str = random.random()!!
-        if (str.startsWith("[MythicMob]")){
-            val itemInfo = str.substringAfter("[MythicMob]")
+        if (str.startsWith("[MythicMobs]")){
+            val itemInfo = str.substringAfter("[MythicMobs]")
             val itemName = itemInfo.split("::")[0].split(":")[0]
             val itemExp = Coerce.toDouble(itemInfo.split("::")[2])
             Mythic.API.getItemStack(itemName)?.let {

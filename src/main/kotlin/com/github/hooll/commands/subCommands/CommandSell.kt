@@ -29,7 +29,7 @@ object CommandSell {
                 var num = 0
                 if (data.canSell){
                     sender.inventory.contents.forEach {
-                        if (it!=null&& it.isE(data.itemStack)){
+                        if (it!=null&& it.isE(data.getItem())){
                             num += it.amount
                             it.amount = 0
                         }

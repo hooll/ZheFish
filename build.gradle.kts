@@ -27,6 +27,7 @@ taboolib {
         }
         dependencies{
             name("Vault").optional(true)
+            name("MythicMobs").optional(true)
         }
     }
 }

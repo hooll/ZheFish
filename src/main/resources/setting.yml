@@ -31,13 +31,13 @@ Custom:
   #特定等级 钓鱼概率获得的物品
   # 用法: [开头的标识(必严谨大小写)][物品ID]:[数量]::[概率]::[获得的钓鱼经验]
   # 插件概率使用的是权重随机 什么也不填 就给正常的钓鱼掉落物和默认钓鱼经验
-  # [MythicMob]物品ID:1::5::1.0 -> 可以获得MythicMob的物品，数量为1个,概率为5份，获得1经验
+  # [MythicMobs]物品ID:1::5::1.0 -> 可以获得MythicMob的物品，数量为1个,概率为5份，获得1经验
   # [ZheFish]物品ID:2::10::1.0 -> 可以获得ZheFish插件内的物品,数量为2个,概率为10份，获得1经验
   # [Console]指令::10::1.0 -> 可以执行指令，概率为10份，获得1经验
   # [Nothing]::10::1.0 -> 没有任何事情发生，概率为10份，获得1经验
   LevelFishItems:
     0-10:
-      - "[MythicMob]SkeletonKingSword:1::5::5"
+      - "[MythicMobs]SkeletonKingSword:1::5::5"
       - "[ZheFish]example_item:2::20::5"
       - "[Console]say %player_name% testCommand::20::3"
       - "[Nothing]::30::2"
