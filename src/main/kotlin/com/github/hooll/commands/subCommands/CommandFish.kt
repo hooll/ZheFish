@@ -6,15 +6,19 @@ import com.github.hooll.config.DataYML
 import com.github.hooll.gui.FishGui
 import com.github.hooll.util.info
 import com.github.hooll.util.warn
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.getProxyPlayer
+import taboolib.platform.util.giveItem
 import taboolib.platform.util.isAir
 
 object CommandFish {
     val command = subCommand {
         //添加物品
         literal("add"){
-            dynamic(commit = "物品名称") {
+            dynamic(commit = "value") {
                 suggestion<Player>(uncheck = true) { _, _ -> listOf("物品名称")  }
                 execute<Player> { sender, _, argument ->
                     if (sender.inventory.itemInMainHand.isAir()){
@@ -29,7 +33,7 @@ object CommandFish {
         }
         //删除物品
         literal("remove"){
-            dynamic(commit = "物品名称") {
+            dynamic(commit = "value") {
                 suggestion<Player>(uncheck = true) { _, _ -> ZheFishApi.fishes.map { it.name } }
                 execute<Player> { sender, _, argument ->
                     ZheFishApi.fishes.remove(ZheFishApi.getFish(argument))
@@ -60,6 +64,24 @@ object CommandFish {
         literal("gui"){
             execute<Player> { sender, _, _ ->
                 FishGui(sender)
+            }
+        }
+        //给物品
+        literal("give", permission = "ZheFish.give"){
+            dynamic(commit = "player") {
+                suggestion<ProxyCommandSender>(uncheck = true) { _, _ -> Bukkit.getOnlinePlayers().map { it.name } }
+                dynamic(commit = "value") {
+                    suggestion<ProxyCommandSender>(uncheck = true) { _, _ -> ZheFishApi.fishes.map { it.name } }
+                    execute<ProxyCommandSender> { sender, context, argument ->
+                        val player = getProxyPlayer(context.argument(-1))?.cast<Player>()!!
+                        if (player.isOnline) {
+                            ZheFishApi.getFish(argument)?.getItem()?.let { player.giveItem(it) }
+                            sender.info("Info-GiveSuccess",context.argument(-1),argument)
+                        }else{
+                            sender.info("Warn-PlayerNotOnline",context.argument(-1))
+                        }
+                    }
+                }
             }
         }
     }

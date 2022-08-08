@@ -25,7 +25,7 @@ object LevelReward {
     private fun execute(player: Player,reward: List<String>){
         reward.forEach {
             if (it.startsWith("[kether]")){
-                KetherShell.eval(it.substringAfter("[Kether]"))
+                KetherShell.eval(it.substringAfter("[kether]"))
             }else if (it.startsWith("[command]")){
                 Bukkit.dispatchCommand(player,it.substringAfter("[command]"))
             }else if (it.startsWith("[console]")){

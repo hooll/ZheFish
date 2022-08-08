@@ -3,6 +3,7 @@ package com.github.hooll.core
 import com.github.hooll.api.ZheFishApi
 import com.github.hooll.api.data.PlayerData
 import com.github.hooll.config.Config
+import com.github.hooll.util.info
 import ink.ptms.um.Mythic
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -32,7 +33,7 @@ object FishItem {
                 }
             }
         }
-        playerData.addExp(Config.default_FishExp)
+
         return itemStack
     }
 
@@ -44,26 +45,38 @@ object FishItem {
         val str = random.random()!!
         if (str.startsWith("[MythicMob]")){
             val itemInfo = str.substringAfter("[MythicMob]")
-            val itemName = itemInfo.split("::")[0]
+            val itemName = itemInfo.split("::")[0].split(":")[0]
             val itemExp = Coerce.toDouble(itemInfo.split("::")[2])
             Mythic.API.getItemStack(itemName)?.let {
                 playerData.addExp(itemExp)
+                player.info("Info-Exp-Change",itemExp,playerData.exp,playerData.nextLevelExp)
+                it.amount = Coerce.toInteger(itemInfo.split("::")[0].split(":")[1])
                 return it
             }
         }else if (str.startsWith("[ZheFish]")){
             val itemInfo = str.substringAfter("[ZheFish]")
-            val itemName = itemInfo.split("::")[0]
+            val itemName = itemInfo.split("::")[0].split(":")[0]
             val itemExp = Coerce.toDouble(itemInfo.split("::")[2])
             ZheFishApi.getFish(itemName)?.let {
                 playerData.addExp(itemExp)
-                return it.getItem()
+                player.info("Info-Exp-Change",itemExp,playerData.exp,playerData.nextLevelExp)
+                val item = it.getItem()
+                item.amount = Coerce.toInteger(itemInfo.split("::")[0].split(":")[1])
+                return item
             }
         }else if (str.startsWith("[Console]")){
             val itemInfo = str.substringAfter("[Console]")
             val itemName = itemInfo.split("::")[0]
             val itemExp = Coerce.toDouble(itemInfo.split("::")[2])
             playerData.addExp(itemExp)
+            player.info("Info-Exp-Change",itemExp,playerData.exp,playerData.nextLevelExp)
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),itemName.replacePlaceholder(player))
+            return itemStack
+        }else if (str.startsWith("[Nothing]")) {
+            val itemInfo = str.substringAfter("[Nothing]")
+            val itemExp = Coerce.toDouble(itemInfo.split("::")[2])
+            playerData.addExp(itemExp)
+            player.info("Info-Exp-Change",itemExp,playerData.exp,playerData.nextLevelExp)
             return itemStack
         }
         playerData.addExp(Config.default_FishExp)

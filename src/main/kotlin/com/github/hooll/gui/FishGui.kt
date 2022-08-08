@@ -5,8 +5,6 @@ import com.github.hooll.api.data.FishData
 import com.github.hooll.config.Config
 import com.github.hooll.config.DataYML
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.chat.colored
@@ -21,15 +19,6 @@ class FishGui(
     init {
         openFishUi()
     }
-    private fun getFishItemStack(name: String): ItemStack?{
-        val fishData = ZheFishApi.getFish(name)
-        val item = fishData?.itemStack?.clone()?.modifyMeta<ItemMeta> {
-            this.setDisplayName(fishData.itemStack.itemMeta?.displayName?.colored())
-            lore = fishData.itemStack.itemMeta?.lore?.colored()
-        }
-        return item
-    }
-
     private fun openFishUi() {
         player.openMenu<Linked<FishData>>(title = Config.fishGuiTitle.colored()) {
             rows(6)
@@ -65,10 +54,6 @@ class FishGui(
                                 openFishUi()
                             }
                         }
-                    }
-                }else if (event.clickEvent().isShiftClick && event.clickEvent().isLeftClick){
-                    if (player.hasPermission("ZheFish.editor")) {
-                        element.openMenu(player)
                     }
                 }
             }
